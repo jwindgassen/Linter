@@ -3,7 +3,12 @@
 
 #include "IAssetTypeActions.h"
 #include "AssetToolsModule.h"
+#include "Misc/EngineVersionComparison.h"
+#if UE_VERSION_NEWER_THAN(5, 0, 0)
+#include "Misc/NamePermissionList.h"
+#else
 #include "Misc/BlacklistNames.h"
+#endif
 
 UTemplateNamingConvention::UTemplateNamingConvention(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -35,7 +40,11 @@ UTemplateNamingConvention::UTemplateNamingConvention(const FObjectInitializer& O
 		};
 		AssetTypeActionsList.Sort(FCompareIAssetTypeActions());
 
+#if UE_VERSION_NEWER_THAN(5, 0, 0)
+		TSharedRef<FNamePermissionList> AssetClassBlacklist = AssetToolsModule.Get().GetAssetClassPermissionList();
+#else
 		TSharedRef<FBlacklistNames> AssetClassBlacklist = AssetToolsModule.Get().GetAssetClassBlacklist();
+#endif
 
 		// For every asset type, add naming convention
 		for (int32 ClassIdx = 0; ClassIdx < AssetTypeActionsList.Num(); ++ClassIdx)
