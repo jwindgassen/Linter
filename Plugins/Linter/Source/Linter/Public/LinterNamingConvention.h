@@ -75,6 +75,8 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Conventions")
 	void SortConventions();
 
+	virtual void PreSave(const class ITargetPlatform* TargetPlatform) override;
+
 protected:
 
 	
