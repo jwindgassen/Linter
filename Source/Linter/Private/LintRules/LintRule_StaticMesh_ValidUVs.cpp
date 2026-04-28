@@ -34,8 +34,8 @@ bool ULintRule_StaticMesh_ValidUVs::PassesRule_Internal_Implementation(UObject* 
     }
 
     if (BadUVs.Num() > 0) {
-        const FText RecommendedAction = NSLOCTEXT("Linter", "LintRule_StaticMesh_ValidUVs_Bad", "Static mesh has invalid UVs. [{0}]");
-        FText::FormatOrdered(RecommendedAction, FText::FromString(FString::Join(BadUVs, TEXT(", "))));
+        FText RecommendedAction = NSLOCTEXT("Linter", "LintRule_StaticMesh_ValidUVs_Bad", "Static mesh has invalid UVs. [{0}]");
+        RecommendedAction = FText::FormatOrdered(RecommendedAction, FText::FromString(FString::Join(BadUVs, TEXT(", "))));
         OutRuleViolations.Push(FLintRuleViolation(ObjectToLint, GetClass(), RecommendedAction));
         return false;
     }

@@ -662,7 +662,11 @@ bool SLintWizard::LoadAssetsIfNeeded(const TArray<FString>& ObjectPaths, TArray<
         FScopedSlowTask SlowTask(UnloadedObjectPaths.Num(), LOCTEXT("LoadingObjects", "Loading Objects..."));
         SlowTask.MakeDialog();
 
+#if ENGINE_MINOR_VERSION >= 5
+        UE::SetIsEditorLoadingPackage(true);
+#else
         GIsEditorLoadingPackage = true;
+#endif
 
         constexpr ELoadFlags LoadFlags = LOAD_None;
         bool bSomeObjectsFailedToLoad = false;
@@ -685,7 +689,12 @@ bool SLintWizard::LoadAssetsIfNeeded(const TArray<FString>& ObjectPaths, TArray<
                 break;
             }
         }
+
+#if ENGINE_MINOR_VERSION >= 5
+        UE::SetIsEditorLoadingPackage(false);
+#else
         GIsEditorLoadingPackage = false;
+#endif
 
         if (bSomeObjectsFailedToLoad) {
             return false;
