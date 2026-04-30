@@ -19,7 +19,8 @@ bool ULintRule_Level_LightingNeedsToRebuilt::PassesRule(UObject* ObjectToLint, c
 bool ULintRule_Level_LightingNeedsToRebuilt::PassesRule_Internal_Implementation(UObject* ObjectToLint, const ULintRuleSet* ParentRuleSet, TArray<FLintRuleViolation>& OutRuleViolations) const {
     UWorld* World = CastChecked<UWorld>(ObjectToLint);
     
-    GetRendererModule().UpdateMapNeedsLightingFullyRebuiltState(World);
+    // ToDo: Properly get the number of missing lighting builds
+    // GetRendererModule().UpdateMapNeedsLightingFullyRebuiltState(World);
     if (World->NumLightingUnbuiltObjects > 0 || World->NumUnbuiltReflectionCaptures > 0) {
         const FText RecommendedAction = NSLOCTEXT("Linter", "LintRule_Level_LightingNeedsToRebuilt", "Rebuild the Lighting of {0}");
         OutRuleViolations.Push(
